@@ -1,39 +1,41 @@
 package gnomes.helper.model;
 
+import gnomes.helper.interfaces.Stage;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
+import java.time.LocalDate;
 import java.util.*;
 
+//Each stage manages its set of crops
+
 @Entity
-public class SowingStage {
+public class SowingStage implements Stage {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @NotNull
     private long    sowingStageId;
-    private Date    sowingDate;
+    private LocalDate sowingDate;
     private String  sowingPhotoRef;
-    @Null
     private	int     sowingAirTemp;
-    @Null
     private int     sowingHumidity; //%
-    @Null
     private int     sowingSoilTemp;
-    @Null
     private int     sowingSoilMoisture; //%
-    @Null
     private int     sowingLightLevel;
+    private long    locationId;
 
-    @OneToMany
-    @JoinTable(joinColumns = @JoinColumn(name="sowingStage_id"), inverseJoinColumns = @JoinColumn(name = "crop_id"))
-    private Set<CropDetails> crops = new HashSet<CropDetails>();
+    @ManyToMany
+    @JoinTable(name = "sowingStage_crop",
+            joinColumns = @JoinColumn(name="sowingStage_id"),
+            inverseJoinColumns = @JoinColumn(name = "crop_id"))
+    private Set<Crop> crops = new HashSet<Crop>();
 
     public SowingStage(){
 
     }
 
-    public SowingStage(Set<CropDetails> crops){
+    public SowingStage(Set<Crop> crops){
         this.crops = crops;
     }
 
@@ -51,22 +53,14 @@ public class SowingStage {
         return Objects.hash(sowingStageId);
     }
 
-
-    //for statics
-    @Override
-    public String toString() {
-        return "SowingStage{" +
-                "sowingStageId=" + sowingStageId +
-                ", sowingDate=" + sowingDate +
-                ", sowingPhotoRef='" + sowingPhotoRef + '\'' +
-                ", sowingAirTemp=" + sowingAirTemp +
-                ", sowingHumidity=" + sowingHumidity +
-                ", sowingSoilTemp=" + sowingSoilTemp +
-                ", sowingSoilMoisture=" + sowingSoilMoisture +
-                ", sowingLightLevel=" + sowingLightLevel +
-                ", crops=" + crops +
-                '}';
+    public long getLocationId() {
+        return locationId;
     }
+
+    public void setLocationId(long locationId) {
+        this.locationId = locationId;
+    }
+
 
     public long getSowingStageId() {
         return sowingStageId;
@@ -76,11 +70,11 @@ public class SowingStage {
         sowingStageId = sowingStageId;
     }
 
-    public Date getSowingDate() {
+    public LocalDate getSowingDate() {
         return sowingDate;
     }
 
-    public void setSowingDate(Date sowingDate) {
+    public void setSowingDate(LocalDate sowingDate) {
         this.sowingDate = sowingDate;
     }
 
@@ -132,11 +126,11 @@ public class SowingStage {
         this.sowingLightLevel = sowingLightLevel;
     }
 
-    public Set<CropDetails> getCrops() {
+    public Set<Crop> getCrops() {
         return crops;
     }
 
-    public void setCrops(Set<CropDetails> crops) {
+    public void setCrops(Set<Crop> crops) {
         this.crops = crops;
     }
 }

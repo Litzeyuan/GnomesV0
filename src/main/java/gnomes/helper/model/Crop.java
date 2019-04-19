@@ -1,42 +1,49 @@
 package gnomes.helper.model;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-public class CropDetails {
+public class Crop {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @NotNull
     private long    cropId;
-    private String  location;
-    @Null
-    private	int     bedId;
-    private String  family;
+
+    // might not need all those details
+    // do we need a crop name ?
+    private String  location;//?
+    private	int     bedId;//?
+    private String  family;//
     private	String  variety;
-    @Null
     private	int     quantity;
     private	String  sowingType;     // seed or module or direct
     private	String  rowSpacing;     // cm - number or seed or module
-    @Null
     private	int     plantSpacing;   // cm
     private	String  trayUsed;       // a number or direct
     private	String  sowingPerCell;	// a number or seed or direct
     private	String  composUsed;
     private	String  seedVender;
-    private Date    seedBoughtDate;
-    private Date    SeedExpiration;
+    private LocalDate seedBoughtDate;
+    private LocalDate seedExpiration;
 
+    @ManyToMany
+    @JoinTable(name = "sowingStage_crop",
+            joinColumns = @JoinColumn(name="sowingStage_id"),
+            inverseJoinColumns = @JoinColumn(name = "crop_id"))
+    private Set<SowingStage> sowingStage = new HashSet<SowingStage>(); ;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CropDetails that = (CropDetails) o;
+        Crop that = (Crop) o;
         return cropId == that.cropId;
     }
 
@@ -45,26 +52,13 @@ public class CropDetails {
         return Objects.hash(cropId);
     }
 
-    //for statics
-    @Override
-    public String toString() {
-        return "CropDetails{" +
-                "cropId=" + cropId +
-                ", location='" + location + '\'' +
-                ", bedId=" + bedId +
-                ", family='" + family + '\'' +
-                ", variety='" + variety + '\'' +
-                ", quantity=" + quantity +
-                ", sowingType='" + sowingType + '\'' +
-                ", rowSpacing='" + rowSpacing + '\'' +
-                ", plantSpacing=" + plantSpacing +
-                ", trayUsed='" + trayUsed + '\'' +
-                ", sowingPerCell='" + sowingPerCell + '\'' +
-                ", composUsed='" + composUsed + '\'' +
-                ", seedVender='" + seedVender + '\'' +
-                ", seedBoughtDate=" + seedBoughtDate +
-                ", SeedExpiration=" + SeedExpiration +
-                '}';
+
+    public Set<SowingStage> getSowingStage() {
+        return sowingStage;
+    }
+
+    public void setSowingStage(Set<SowingStage> sowingStage) {
+        this.sowingStage = sowingStage;
     }
 
     public long getCropId() {
@@ -171,19 +165,19 @@ public class CropDetails {
         this.seedVender = seedVender;
     }
 
-    public Date getSeedBoughtDate() {
+    public LocalDate getSeedBoughtDate() {
         return seedBoughtDate;
     }
 
-    public void setSeedBoughtDate(Date seedBoughtDate) {
+    public void setSeedBoughtDate(LocalDate seedBoughtDate) {
         this.seedBoughtDate = seedBoughtDate;
     }
 
-    public Date getSeedExpiration() {
-        return SeedExpiration;
+    public LocalDate getSeedExpiration() {
+        return seedExpiration;
     }
 
-    public void setSeedExpiration(Date seedExpiration) {
-        SeedExpiration = seedExpiration;
+    public void setSeedExpiration(LocalDate seedExpiration) {
+        this.seedExpiration = seedExpiration;
     }
 }
