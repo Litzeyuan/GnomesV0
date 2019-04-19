@@ -23,12 +23,13 @@ public class SowingStage implements Stage {
     private int     sowingSoilTemp;
     private int     sowingSoilMoisture; //%
     private int     sowingLightLevel;
-    private long    locationId;
+    private long    bedId;
 
     @ManyToMany
     @JoinTable(name = "sowingStage_crop",
             joinColumns = @JoinColumn(name="sowingStage_id"),
             inverseJoinColumns = @JoinColumn(name = "crop_id"))
+
     private Set<Crop> crops = new HashSet<Crop>();
 
     public SowingStage(){
@@ -53,14 +54,13 @@ public class SowingStage implements Stage {
         return Objects.hash(sowingStageId);
     }
 
-    public long getLocationId() {
-        return locationId;
+    public long getBedId() {
+        return bedId;
     }
 
-    public void setLocationId(long locationId) {
-        this.locationId = locationId;
+    public void setBedId(long bedId) {
+        this.bedId = bedId;
     }
-
 
     public long getSowingStageId() {
         return sowingStageId;
