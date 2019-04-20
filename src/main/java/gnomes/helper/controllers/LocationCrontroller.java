@@ -20,5 +20,5 @@ public class LocationCrontroller {
         model.addAttribute("locations", locationRepository.findAll());
         return "locations";
     }
-
+ 
 }
