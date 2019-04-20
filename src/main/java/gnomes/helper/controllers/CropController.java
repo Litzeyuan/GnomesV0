@@ -10,6 +10,10 @@ public class CropController {
 
     private CropRepository cropRepository;
 
+    public  CropController(){
+
+    }
+
     public CropController(CropRepository cropRepository){
         this.cropRepository = cropRepository;
     }
@@ -24,6 +28,12 @@ public class CropController {
 
         return "crops";
     }
+
+    @RequestMapping("/")
+    public String crops(){
+        return "crops";
+    }
+
 
 
 
