@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gnomes Helper</title>
+</head>
+<body>
+<h1>Crops List</h1>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Family</th>
+        <th>Variety</th>
+    </tr>
+
+    <!-- iterating the table to get all rows -->
+    <tr th:each="Location">
+        <td></td>
+    </tr>
+
+    <tr th:each="crop: ${crops}">
+        <td th:text="${crop.cropId}"></td>
+        <td th:text="${crop.family}"></td>
+        <td th:text="${crop.variety}"></td>
+    </tr>
+
+
+
+</table>
+
+</body>
+</html>
