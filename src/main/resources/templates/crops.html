@@ -15,10 +15,6 @@
     </tr>
 
     <!-- iterating the table to get all rows -->
-    <tr th:each="Location">
-        <td></td>
-    </tr>
-
     <tr th:each="crop: ${crops}">
         <td th:text="${crop.cropId}"></td>
         <td th:text="${crop.family}"></td>
